@@ -1,0 +1,42 @@
+name: 发布插件到 DooTask 应用商店
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送 v 开头的标签时触发
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 获取标签信息
+        id: tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "发布标签: $TAG_NAME"
+
+      - name: 打包 test_plugin 目录
+        run: |
+          tar -czf test-plugin.tar.gz -C test_plugin .
+          ls -la test-plugin.tar.gz
+
+      - name: 发布到 DooTask 应用商店
+        uses: dootask/appstore-action@v1
+        with:
+          username: ${{ secrets.DOOTASK_USERNAME }}
+          password: ${{ secrets.DOOTASK_PASSWORD }}
+          appid: 'test-plugin'
+          package_file: './test-plugin.tar.gz'
+          draft: false
+        id: publish
+
+      - name: 输出发布结果
+        run: |
+          echo "🎉 标签 ${{ steps.tag.outputs.tag_name }} 发布完成！"
+          echo "Token: ${{ steps.publish.outputs.token }}"
+          echo "Hash: ${{ steps.publish.outputs.hash }}"
+          echo "Success: ${{ steps.publish.outputs.success }}" 

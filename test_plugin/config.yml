@@ -1,0 +1,8 @@
+name: 
+  en: test-plugin
+  zh: 测试插件
+description:
+  en: Test plugin for verifying the DooTask plugin auto-publishing system.
+  zh: 测试插件，用于测试 DooTask 插件自动发布系统。
+tags:
+  - 测试插件

@@ -1,0 +1,41 @@
+name: 测试 DooTask AppStore Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_appid:
+        description: '测试用的应用 ID'
+        required: false
+        default: 'test-plugin'
+      test_draft:
+        description: '是否为草稿模式'
+        type: boolean
+        default: false
+
+jobs:
+  test-plugin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 打包 test_plugin 目录
+        run: |
+          tar -czf test-plugin.tar.gz -C test_plugin .
+          ls -la test-plugin.tar.gz
+
+      - name: 发布到 DooTask 应用商店
+        uses: ./
+        with:
+          username: ${{ secrets.DOOTASK_USERNAME }}
+          password: ${{ secrets.DOOTASK_PASSWORD }}
+          appid: ${{ github.event.inputs.test_appid }}
+          package_file: './test-plugin.tar.gz'
+          draft: ${{ github.event.inputs.test_draft }}
+        id: publish
+
+      - name: 输出结果
+        run: |
+          echo "Token: ${{ steps.publish.outputs.token }}"
+          echo "Hash: ${{ steps.publish.outputs.hash }}"
+          echo "Success: ${{ steps.publish.outputs.success }}" 
