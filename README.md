@@ -1,6 +1,17 @@
 # DooTask AppStore Publisher
 
+[![GitHub release](https://img.shields.io/github/release/dootask/appstore-action.svg)](https://github.com/dootask/appstore-action/releases)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-dootask--appstore--action-blue?logo=github)](https://github.com/marketplace/actions/dootask-appstore-publisher)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 一个用于自动发布应用到 DooTask 应用商店的 GitHub Action。
+
+## 快速开始
+
+1. 在您的 GitHub 仓库中添加必要的 Secrets（见下方配置说明）
+2. 在您的工作流文件中添加这个 Action
+3. 提供应用包文件路径或下载链接
+4. 一键发布到 DooTask 应用商店！
 
 ## 功能特性
 
@@ -27,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 发布应用
-        uses: your-username/dootask-appstore-action@v1
+        uses: dootask/appstore-action@v1
         with:
           username: ${{ secrets.DOOTASK_USERNAME }}
           password: ${{ secrets.DOOTASK_PASSWORD }}
@@ -60,7 +71,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 发布应用到 DooTask 应用商店
-        uses: your-username/dootask-appstore-action@v1
+        uses: dootask/appstore-action@v1
         with:
           username: ${{ secrets.DOOTASK_USERNAME }}
           password: ${{ secrets.DOOTASK_PASSWORD }}
@@ -101,7 +112,7 @@ jobs:
           tar -czf my-app.tar.gz dist/
 
       - name: 发布到 DooTask 应用商店
-        uses: your-username/dootask-appstore-action@v1
+        uses: dootask/appstore-action@v1
         with:
           username: ${{ secrets.DOOTASK_USERNAME }}
           password: ${{ secrets.DOOTASK_PASSWORD }}
@@ -171,6 +182,16 @@ Action 会自动处理以下错误情况：
 
 如果任何步骤失败，Action 会输出详细的错误信息并退出。
 
+## 贡献
+
+欢迎提交 Issue 和 Pull Request 来改进这个 Action！
+
+如果您发现了 bug 或有功能建议，请在 [GitHub Issues](https://github.com/dootask/appstore-action/issues) 中提出。
+
+## 更新日志
+
+查看 [Releases](https://github.com/dootask/appstore-action/releases) 了解版本更新历史。
+
 ## 许可证
 
-MIT License 
+MIT License - 查看 [LICENSE](LICENSE) 文件了解详情。 
