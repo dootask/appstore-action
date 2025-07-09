@@ -31,7 +31,7 @@ jobs:
           password: ${{ secrets.DOOTASK_PASSWORD }}
           appid: 'test-plugin'
           package_file: './test-plugin.tar.gz'
-          draft: false
+          draft: true
         id: publish
 
       - name: 输出发布结果

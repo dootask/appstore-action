@@ -10,7 +10,7 @@ on:
       test_draft:
         description: '是否为草稿模式'
         type: boolean
-        default: false
+        default: true
 
 jobs:
   test-plugin:
