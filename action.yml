@@ -1,0 +1,46 @@
+name: 'DooTask AppStore Publisher'
+description: '自动发布应用到 DooTask 应用商店'
+author: 'DooTask'
+
+inputs:
+  username:
+    description: 'DooTask 应用商店用户名'
+    required: true
+  password:
+    description: 'DooTask 应用商店密码'
+    required: true
+  draft:
+    description: '是否为草稿模式 (true/false)'
+    required: false
+    default: 'true'
+  package_file:
+    description: '压缩包文件路径或下载地址 (支持本地文件或 HTTP/HTTPS URL，格式: .zip、.tar.gz、.tgz)'
+    required: true
+  appid:
+    description: '应用 ID'
+    required: true
+
+outputs:
+  token:
+    description: '登录获取的 token'
+  hash:
+    description: '上传后获取的文件 hash'
+  success:
+    description: '发布是否成功'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 执行发布脚本
+      run: ${{ github.action_path }}/publish.sh
+      shell: bash
+      env:
+        INPUT_USERNAME: ${{ inputs.username }}
+        INPUT_PASSWORD: ${{ inputs.password }}
+        INPUT_DRAFT: ${{ inputs.draft }}
+        INPUT_PACKAGE_FILE: ${{ inputs.package_file }}
+        INPUT_APPID: ${{ inputs.appid }}
+
+branding:
+  icon: 'upload'
+  color: 'blue' 
