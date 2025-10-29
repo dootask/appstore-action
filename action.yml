@@ -19,6 +19,10 @@ inputs:
   appid:
     description: '应用 ID'
     required: true
+  is_system_app:
+    description: '是否为系统应用 (true/false)，仅针对系统应用发布，默认为 false，设置为 true 时需确保有系统应用发布权限'
+    required: false
+    default: 'false'
 
 outputs:
   token:
@@ -38,6 +42,7 @@ runs:
         INPUT_USERNAME: ${{ inputs.username }}
         INPUT_PASSWORD: ${{ inputs.password }}
         INPUT_DRAFT: ${{ inputs.draft }}
+        INPUT_IS_SYSTEM_APP: ${{ inputs.is_system_app }}
         INPUT_PACKAGE_FILE: ${{ inputs.package_file }}
         INPUT_APPID: ${{ inputs.appid }}
 

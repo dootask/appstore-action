@@ -45,6 +45,7 @@ retry_request() {
 USERNAME="${INPUT_USERNAME}"
 PASSWORD="${INPUT_PASSWORD}"
 DRAFT="${INPUT_DRAFT,,}"  # Convert to lowercase # 转为小写
+IS_SYSTEM_APP_INPUT="${INPUT_IS_SYSTEM_APP,,}"
 PACKAGE_FILE="${INPUT_PACKAGE_FILE}"
 APPID="${INPUT_APPID}"
 
@@ -62,9 +63,18 @@ else
     IS_PUBLIC="true"
 fi
 
+# Convert is_system_app input to boolean # 将 is_system_app 转换为布尔值
+if [ "$IS_SYSTEM_APP_INPUT" = "true" ]; then
+    IS_SYSTEM_APP="true"
+    IS_PUBLIC="true"  # System apps must be public # 系统应用必须是公开的
+else
+    IS_SYSTEM_APP="false"
+fi
+
 echo "::group::Publishing app to DooTask App Store" # 开始发布应用到 DooTask 应用商店
 echo "::notice::App ID: $APPID" # 应用 ID
 echo "::notice::Draft mode: $DRAFT" # 草稿模式
+echo "::notice::System app: $IS_SYSTEM_APP" # 系统应用
 echo "::endgroup::"
 
 # Step 1: Handle package file # 步骤 1: 处理压缩包文件
@@ -197,7 +207,7 @@ publish_request() {
     response=$(curl -s 'https://appstore.dootask.com/api/v1/developer/app/publish' \
       -H 'Content-Type: application/json' \
       -H "Token: $token" \
-      --data-raw "{\"hash\":\"$hash\",\"is_public\":$IS_PUBLIC}")
+      --data-raw "{\"hash\":\"$hash\",\"is_public\":$IS_PUBLIC,\"is_system_app\":$IS_SYSTEM_APP}")
     
     echo "::debug::Publish response: $response" # 发布响应
     
